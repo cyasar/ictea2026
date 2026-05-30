@@ -207,6 +207,16 @@ $$H(\mathbf{x}) = -\sum_i f_i x_i + \sum_{i<j} q_{ij} x_i x_j + \lambda_p \max(0
 
 For large networks (e.g. C=6, P=8), use **Simulated annealing**; exhaustive search is limited to n ≤ 20 in the client.
 
+### Optimization methods (dropdown help)
+
+| Method | Role | Best for |
+|--------|------|----------|
+| **Exhaustive search** | Scans all 2ⁿ patterns; exact global minimum of H(x) | Small n (≤20), six-pore benchmark |
+| **Simulated annealing** | Classical heuristic with cooling; approximate low-energy layout | Large n (48+ variables, 6×8 network) |
+| **Ising mean field** | Spin-inspired descent on the same QUBO landscape | Fast exploration; same H(x), no quantum HW |
+
+Multilingual explanations appear under the dropdown in Simulation Mode (`config/i18n-simulation.js` — EN / TR / RO). Language syncs with the hub via `localStorage`.
+
 ---
 
 ## Colab notebook (`notebooks/teaching_mode_colab.ipynb`)
@@ -259,6 +269,7 @@ ictea2026/
 ├── config/
 │   ├── links.js            # Colab URL; webApp = frontend/index.html (relative)
 │   ├── i18n-presentation.js   # 27 slides × EN/TR/RO + speaker notes
+│   ├── i18n-simulation.js  # Optimization method help (EN/TR/RO)
 │   ├── i18n-hub.js
 │   └── authors.js
 ├── frontend/

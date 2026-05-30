@@ -30,7 +30,14 @@
 
   <main class="layout" id="simulation-layout">
     <aside class="panel controls-panel">
-      <h2>Parameters</h2>
+      <div class="panel-head-row">
+        <h2>Parameters</h2>
+        <div class="sim-lang-bar" aria-label="Language">
+          <button type="button" class="sim-lang-btn active" data-lang="en">EN</button>
+          <button type="button" class="sim-lang-btn" data-lang="tr">TR</button>
+          <button type="button" class="sim-lang-btn" data-lang="ro">RO</button>
+        </div>
+      </div>
       <div class="control-group">
         <label for="channels">Channel count (C)</label>
         <input type="number" id="channels" min="1" max="12" value="6">
@@ -60,12 +67,16 @@
         <input type="number" id="lambda-c" step="0.5" value="5">
       </div>
       <div class="control-group">
-        <label for="method">Optimization method</label>
+        <label for="method" id="label-method">Optimization method</label>
         <select id="method">
           <option value="exhaustive">Exhaustive search</option>
           <option value="simulated_annealing" selected>Simulated annealing</option>
           <option value="ising_mean_field">Ising mean field</option>
         </select>
+        <div class="method-help" id="method-help" role="note">
+          <strong id="method-help-title">What this method does</strong>
+          <p id="method-help-text"></p>
+        </div>
       </div>
       <div class="control-group">
         <label><input type="checkbox" id="use-benchmark"> Six-pore benchmark</label>
@@ -168,13 +179,14 @@
     </nav>
   </div>
 
-  <script src="../config/i18n-presentation.js?v=20260530-27"></script>
-  <script src="../config/authors.js?v=20260530-27"></script>
-  <script src="../config/links.js?v=20260530-27"></script>
-  <script src="js/simulation.js?v=20260530-27"></script>
-  <script src="js/visualization.js?v=20260530-27"></script>
-  <script src="js/pres-visuals.js?v=20260530-27"></script>
-  <script src="js/presentation.js?v=20260530-27"></script>
-  <script src="js/app.js?v=20260530-27"></script>
+  <script src="../config/i18n-simulation.js?v=20260530-28"></script>
+  <script src="../config/i18n-presentation.js?v=20260530-28"></script>
+  <script src="../config/authors.js?v=20260530-28"></script>
+  <script src="../config/links.js?v=20260530-28"></script>
+  <script src="js/simulation.js?v=20260530-28"></script>
+  <script src="js/visualization.js?v=20260530-28"></script>
+  <script src="js/pres-visuals.js?v=20260530-28"></script>
+  <script src="js/presentation.js?v=20260530-28"></script>
+  <script src="js/app.js?v=20260530-28"></script>
 </body>
 </html>

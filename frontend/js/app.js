@@ -17,6 +17,9 @@
     lambdaK: document.getElementById("lambda-k"),
     lambdaC: document.getElementById("lambda-c"),
     method: document.getElementById("method"),
+    methodHelpTitle: document.getElementById("method-help-title"),
+    methodHelpText: document.getElementById("method-help-text"),
+    labelMethod: document.getElementById("label-method"),
     benchmark: document.getElementById("use-benchmark"),
     seed: document.getElementById("seed"),
     status: document.getElementById("status-bar"),
@@ -37,6 +40,40 @@
     qubo: document.getElementById("qubo-canvas"),
     energy: document.getElementById("energy-canvas"),
   };
+
+  const LANG_KEY = "ictea2026-hub-lang";
+  let simLang = localStorage.getItem(LANG_KEY) || "en";
+
+  function simT() {
+    return window.SIM_I18N?.[simLang] || window.SIM_I18N.en;
+  }
+
+  function applySimLanguage(lang) {
+    if (!window.SIM_I18N?.[lang]) lang = "en";
+    simLang = lang;
+    localStorage.setItem(LANG_KEY, lang);
+    const pack = simT();
+    if (els.labelMethod) els.labelMethod.textContent = pack.methodLabel;
+    ["exhaustive", "simulated_annealing", "ising_mean_field"].forEach((val) => {
+      const opt = els.method.querySelector(`option[value="${val}"]`);
+      if (opt && pack.methods[val]) opt.textContent = pack.methods[val];
+    });
+    if (els.methodHelpTitle) els.methodHelpTitle.textContent = pack.methodHelpTitle;
+    updateMethodHelp();
+    document.querySelectorAll(".sim-lang-btn").forEach((btn) => {
+      const on = btn.dataset.lang === simLang;
+      btn.classList.toggle("active", on);
+      btn.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+  }
+
+  function updateMethodHelp() {
+    const pack = simT();
+    const key = els.method.value;
+    if (els.methodHelpText) {
+      els.methodHelpText.textContent = pack.methodHelp[key] || pack.methodHelp.simulated_annealing;
+    }
+  }
 
   function getParams() {
     return {
@@ -217,9 +254,15 @@
 
   els.channels.addEventListener("change", buildData);
   els.pores.addEventListener("change", buildData);
+  els.method.addEventListener("change", updateMethodHelp);
+
+  document.querySelectorAll(".sim-lang-btn").forEach((btn) => {
+    btn.addEventListener("click", () => applySimLanguage(btn.dataset.lang));
+  });
 
   buildData();
   state.params = getParams();
+  applySimLanguage(simLang);
   setupColabLinks();
   if (window.PROJECT_AUTHORS) {
     const line = window.PROJECT_AUTHORS.authorsLine;

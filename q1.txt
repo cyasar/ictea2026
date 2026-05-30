@@ -20,4 +20,10 @@ Bu liste, isteğe bağlı 3 ek slaytın (25–27) içeriğini tanımlar. Ana sun
 - Toplam verimlilik: η(x) = Σᵢ fᵢ xᵢ
 - Toplam basınç: P(x) = Σᵢ pᵢ xᵢ
 - Uygulanabilirlik: P(x) ≤ Pmax ve Σᵢ xᵢ ≤ K
-- Exhaustive search (küçük n), Simulated Annealing (büyük n)
+
+## 4. Simülasyon — Optimizasyon yöntemleri (Simulation Mode)
+- **Exhaustive search:** Tüm 2ⁿ deseni dener; küçük n için kesin optimum (n≤20). Büyük ağda kullanılamaz.
+- **Simulated annealing:** Sezgisel tavlama; büyük n için hızlı, yaklaşık çözüm (6×8 ağ).
+- **Ising mean field:** Spin-esinli klasik çözücü; aynı H(x), hızlı keşif, kuantum donanımı yok.
+
+Metinler: `config/i18n-simulation.js` (EN / TR / RO) — dropdown altında canlı gösterilir.

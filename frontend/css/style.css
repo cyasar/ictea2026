@@ -157,6 +157,60 @@ body.hub-body { background: linear-gradient(180deg, #eff6ff 0%, var(--bg) 40%); 
   font-size: 0.85rem;
 }
 
+.panel-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.panel-head-row h2 { margin: 0; }
+
+.sim-lang-bar {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.sim-lang-btn {
+  border: 1px solid var(--border);
+  background: var(--panel-bg);
+  color: var(--text-muted);
+  padding: 0.2rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sim-lang-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.method-help {
+  margin-top: 0.45rem;
+  padding: 0.55rem 0.65rem;
+  font-size: 0.76rem;
+  line-height: 1.45;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 6px;
+  color: #0c4a6e;
+}
+
+.method-help strong {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.25rem;
+  color: #0369a1;
+}
+
+.method-help p { margin: 0; }
+
 .panel-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
