@@ -30,21 +30,28 @@ const Presentation = (function () {
 
   function slideHTML(slide, i, pack, total) {
     const isTitle = i === 0;
-    const isLast = i === total - 1;
     let text = "";
+    if (slide.appendix) {
+      text += `<p class="pres-appendix-label">${pack.ui.conceptReading || "Concept reading"}</p>`;
+    }
     if (isTitle) {
       text += `<h2 class="pres-paper-title">${slide.title}</h2>`;
       if (slide.subtitle) text += `<p class="pres-subtitle">${slide.subtitle}</p>`;
       text += `<p class="pres-slide-authors">${pack.ui.authorsSlide}</p>`;
     } else {
       text += `<h2>${slide.title}</h2>`;
+      if (slide.math?.length) {
+        text += '<div class="pres-math-block">';
+        slide.math.forEach((line) => { text += `<p class="pres-math-line">${line}</p>`; });
+        text += "</div>";
+      }
       if (slide.body?.length) {
         text += '<ul class="pres-bullets">';
         slide.body.forEach((line) => { text += `<li>${line}</li>`; });
         text += "</ul>";
       }
     }
-    if (isLast) text += `<p class="pres-slide-authors pres-footer-authors">${pack.ui.authorsFooter}</p>`;
+    if (slide.footer) text += `<p class="pres-slide-authors pres-footer-authors">${pack.ui.authorsFooter}</p>`;
 
     return `
       <div class="pres-slide-inner ${isTitle ? "pres-slide-title" : ""}">

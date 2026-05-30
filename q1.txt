@@ -1,0 +1,23 @@
+# Kavram okuması — sunumda geçen terimler (Concept reading glossary)
+
+Bu liste, isteğe bağlı 3 ek slaytın (25–27) içeriğini tanımlar. Ana sunum akışı (slayt 0–23) değişmez.
+
+## 1. QUBO ve ikili değişkenler
+- QUBO (Quadratic Unconstrained Binary Optimization)
+- İkili karar değişkeni xᵢ ∈ {0,1} (1 = aktif gözenek, 0 = pasif)
+- Arama uzayı: 2ⁿ konfigürasyon
+- Amaç: H(x) minimizasyonu
+
+## 2. Hamiltonian terimleri
+- Akış ödülü: −Σᵢ fᵢ xᵢ
+- Hidrolik etkileşim: Σᵢ<ⱼ qᵢⱼ xᵢ xⱼ
+- Basınç cezası: λₚ [max(0, Σᵢ pᵢ xᵢ − Pmax)]²
+- Aktif gözenek cezası: λₖ [max(0, Σᵢ xᵢ − K)]²
+- Süreklilik cezası: λc C(x)
+
+## 3. Ising, metrikler ve çözücüler
+- Ising dönüşümü: xᵢ = (1 + sᵢ)/2, sᵢ ∈ {−1,+1}
+- Toplam verimlilik: η(x) = Σᵢ fᵢ xᵢ
+- Toplam basınç: P(x) = Σᵢ pᵢ xᵢ
+- Uygulanabilirlik: P(x) ≤ Pmax ve Σᵢ xᵢ ≤ K
+- Exhaustive search (küçük n), Simulated Annealing (büyük n)

@@ -1143,7 +1143,100 @@ const PresVisuals = (function () {
       const by = h * 0.82 - ((phase * 40 + i * 30) % 40);
       drawNanobubble(ctx, bx, by, 5 + (i % 3), 0.8, true);
     }
-    drawHud(ctx, w, h, stateHud(state));
+    drawHud(ctx, w, h, [
+      { text: "ICTEA 2026 · QUBO teaching demo", color: "#93c5fd" },
+      { text: "Six-pore benchmark + 6×8 network", color: "#86efac" },
+    ]);
+  }
+
+  function drawMathCanvas(ctx, w, h, title, lines, accent) {
+    ctx.fillStyle = "#0f172a";
+    ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = accent || "#38bdf8";
+    ctx.font = "bold 11px Segoe UI,sans-serif";
+    ctx.fillText(title, 14, 22);
+    ctx.strokeStyle = accent || "#38bdf8";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(14, 28);
+    ctx.lineTo(w - 14, 28);
+    ctx.stroke();
+    ctx.fillStyle = "#e2e8f0";
+    ctx.font = "11px Consolas, monospace";
+    lines.forEach((line, i) => {
+      ctx.fillText(line, 16, 48 + i * 17);
+    });
+  }
+
+  function drawConceptGlossaryQUBO(ctx, w, h) {
+    drawMathCanvas(ctx, w, h, "Binary design space", [
+      "x = (x1, x2, ..., xn)   xi in {0, 1}",
+      "",
+      "|Omega| = 2^n configurations",
+      "n=6  -> 64 states (exhaustive OK)",
+      "n=48 -> 2^48 states (use SA)",
+    ], "#4ade80");
+    for (let i = 0; i < 6; i++) {
+      const x = 24 + i * ((w - 48) / 5);
+      const on = i === 0 || i === 1 || i === 5;
+      ctx.beginPath();
+      ctx.arc(x, h - 36, 14, 0, Math.PI * 2);
+      ctx.fillStyle = on ? C.blue : "#475569";
+      ctx.fill();
+      ctx.fillStyle = "#fff";
+      ctx.font = "bold 10px monospace";
+      ctx.fillText(on ? "1" : "0", x - 4, h - 32);
+    }
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = "9px Segoe UI,sans-serif";
+    ctx.fillText("example pattern x = (1,1,0,0,0,1)", 14, h - 10);
+  }
+
+  function drawConceptGlossaryHamiltonian(ctx, w, h) {
+    drawMathCanvas(ctx, w, h, "H(x) structure", [
+      "H = flow + hyd + P_pen + K_pen + C",
+      "flow  = - sum fi*xi        (reward)",
+      "hyd   = sum qij*xi*xj      (coupling)",
+      "P_pen = lp * max(0,P-Pmax)^2",
+      "K_pen = lk * max(0,sum xi-K)^2",
+    ], "#f472b6");
+    const bars = [
+      { l: "flow", v: -2.35, c: C.green },
+      { l: "P_pen", v: 0, c: C.red },
+      { l: "K_pen", v: 0, c: C.orange },
+    ];
+    bars.forEach((b, i) => {
+      const bx = 20 + i * (w / 3.5);
+      const bh = Math.abs(b.v) * 18 + 8;
+      ctx.fillStyle = b.c;
+      ctx.fillRect(bx, h - 50 - bh, w / 4, bh);
+      ctx.fillStyle = "#cbd5e1";
+      ctx.font = "8px Segoe UI,sans-serif";
+      ctx.fillText(b.l, bx, h - 18);
+    });
+  }
+
+  function drawConceptGlossaryIsingSolvers(ctx, w, h) {
+    drawMathCanvas(ctx, w, h, "Ising & observables", [
+      "xi = (1 + si) / 2,   si in {-1, +1}",
+      "eta(x) = sum fi*xi",
+      "P(x)   = sum pi*xi",
+      "feasible: P <= Pmax and sum xi <= K",
+    ], "#a78bfa");
+    ctx.fillStyle = "#64748b";
+    ctx.font="9px Segoe UI,sans-serif";
+    ctx.fillText("Solver scaling (relative)", 14, h * 0.52);
+    const xs = [0.2, 0.5, 0.8];
+    const hs = [0.85, 0.35, 0.4];
+    const labs = ["2^n", "SA", "Ising"];
+    xs.forEach((xr, i) => {
+      const bx = xr * w;
+      const barH = hs[i] * (h * 0.28);
+      ctx.fillStyle = i === 0 ? C.red : i === 1 ? C.blue : "#7c3aed";
+      ctx.fillRect(bx - 22, h * 0.78 - barH, 44, barH);
+      ctx.fillStyle = "#94a3b8";
+      ctx.fillText(labs[i], bx - 12, h * 0.82);
+    });
   }
 
   const drawers = [
@@ -1177,6 +1270,9 @@ const PresVisuals = (function () {
     drawInterpretationCompare,
     drawDiscussionLayers,
     drawConclusionPipeline,
+    drawConceptGlossaryQUBO,
+    drawConceptGlossaryHamiltonian,
+    drawConceptGlossaryIsingSolvers,
   ];
 
   function drawSlide(canvas, slideIndex, state) {
@@ -1215,6 +1311,9 @@ const PresVisuals = (function () {
       20: [{ l: "Classical vs QUBO table" }],
       21: [{ l: "Naive vs QUBO" }],
       23: [{ l: "Final conclusion" }],
+      24: [{ l: "Concept: QUBO & binary x" }],
+      25: [{ l: "Concept: H(x) terms" }],
+      26: [{ l: "Concept: Ising & solvers" }],
     };
     return hudMap[slideIndex] || [];
   }

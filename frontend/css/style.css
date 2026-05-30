@@ -738,6 +738,39 @@ body.hub-body { background: linear-gradient(180deg, #eff6ff 0%, var(--bg) 40%); 
 
 .pres-footer-authors { margin-top: 1.5rem !important; }
 
+.pres-appendix-label {
+  display: inline-block;
+  font-size: 0.72rem !important;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fcd34d !important;
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  margin-bottom: 0.65rem !important;
+}
+
+.pres-math-block {
+  margin: 0.65rem 0 0.85rem;
+  padding: 0.75rem 0.9rem;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid #334155;
+  border-left: 3px solid #38bdf8;
+  border-radius: 8px;
+  max-width: 100%;
+}
+
+.pres-math-line {
+  font-family: "Cambria Math", "Times New Roman", Georgia, serif !important;
+  font-size: clamp(0.82rem, 1.6vw, 1.02rem) !important;
+  color: #e2e8f0 !important;
+  line-height: 1.55 !important;
+  margin: 0.2rem 0 !important;
+  white-space: pre-wrap;
+}
+
 .pres-nav {
   display: flex;
   justify-content: space-between;
