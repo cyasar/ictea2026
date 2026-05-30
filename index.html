@@ -96,6 +96,10 @@
       font-size: 0.9rem;
     }
     .hub-note code { font-size: 0.85rem; }
+    .hub-local-note {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+    }
   </style>
 </head>
 <body class="hub-body">
@@ -132,11 +136,10 @@
       </article>
     </div>
 
-    <div class="hub-note" id="hub-local-banner" hidden>
-      <strong>Local file mode</strong> —
-      Opened from disk (<code>file://</code>). Click <em>Open Web Simulation</em> for the local
-      <code>frontend/index.html</code> (27 slides). For the online version use
-      <a href="https://cyasar.github.io/ictea2026/" target="_blank" rel="noopener">cyasar.github.io/ictea2026</a>.
+    <div class="hub-note hub-local-note" id="hub-local-banner" hidden>
+      <strong id="hub-local-banner-title">Local file mode</strong> —
+      <span id="hub-local-banner-body">Opened from disk (file://).</span>
+      <a href="https://cyasar.github.io/ictea2026/" target="_blank" rel="noopener">cyasar.github.io/ictea2026</a>
     </div>
 
     <div class="hub-note">

@@ -21,6 +21,8 @@ window.HUB_I18N = {
     noteBody: "Use the language buttons above during your talk. Web demo opens the simulation; Colab opens the teaching notebook with QUBO formulas step-by-step.",
     alertColab: "Colab link is not configured. Check config/links.js",
     langLabel: "Language",
+    localBannerTitle: "Local file mode",
+    localBannerBody: "Opened from disk (file://). Click Open Web Simulation for local frontend/index.html (27 slides). Online:",
   },
   tr: {
     pageTitle: "Nanopor Oksijen Akışı QUBO — ICTEA 2026 Demo",
@@ -43,6 +45,8 @@ window.HUB_I18N = {
     noteBody: "Sunum sırasında yukarıdaki dil düğmelerini kullanın. Web demo simülasyonu açar; Colab, QUBO formüllerini adım adım anlatan notebook'u açar.",
     alertColab: "Colab bağlantısı ayarlanmamış. config/links.js dosyasını kontrol edin.",
     langLabel: "Dil",
+    localBannerTitle: "Yerel dosya modu",
+    localBannerBody: "Diskten açıldı (file://). Sunum için Web Simülasyonunu Aç → yerel frontend/index.html (27 slayt). Online:",
   },
   ro: {
     pageTitle: "Flux oxigen nanoporous QUBO — ICTEA 2026 Demo",
@@ -65,6 +69,8 @@ window.HUB_I18N = {
     noteBody: "Folosiți butoanele de limbă de mai sus în timpul prezentării. Demo-ul web deschide simularea; Colab deschide notebook-ul didactic cu formulele QUBO pas cu pas.",
     alertColab: "Linkul Colab nu este configurat. Verificați config/links.js",
     langLabel: "Limbă",
+    localBannerTitle: "Mod fișier local",
+    localBannerBody: "Deschis de pe disc (file://). Apăsați Deschide simularea web → frontend/index.html local (27 slide-uri). Online:",
   },
 };
 

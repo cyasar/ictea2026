@@ -26,6 +26,11 @@
 
     updateUrlLabels();
 
+    const bannerTitle = document.getElementById("hub-local-banner-title");
+    const bannerBody = document.getElementById("hub-local-banner-body");
+    if (bannerTitle) bannerTitle.textContent = t("localBannerTitle");
+    if (bannerBody) bannerBody.textContent = t("localBannerBody");
+
     document.title = t("pageTitle");
 
     document.querySelectorAll(".lang-btn").forEach((btn) => {

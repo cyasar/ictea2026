@@ -24,13 +24,29 @@ Interactive web demo and Google Colab teaching notebook for ICTEA 2026 — confe
 
 ## Quick start (local)
 
+### Option A — Double-click (Windows)
+
+Open **`OPEN_HUB.bat`** in the project folder, or open **`index.html`** directly in the browser:
+
+```
+file:///.../ictea2026/v3/index.html
+```
+
+The hub detects **local file mode** (`file://`) and links **Web Simulation** to the local `frontend/index.html` (no internet required for the presentation). Colab still needs internet.
+
+### Option B — Local HTTP server
+
 ```bash
 git clone https://github.com/cyasar/ictea2026.git
 cd ictea2026
 python -m http.server 8080
 ```
 
-Open [http://localhost:8080/](http://localhost:8080/) for the multilingual hub, or [http://localhost:8080/frontend/index.html](http://localhost:8080/frontend/index.html) for the web app directly.
+Open [http://localhost:8080/](http://localhost:8080/) for the hub, or [http://localhost:8080/frontend/index.html](http://localhost:8080/frontend/index.html) for the web app.
+
+### Option C — Online (GitHub Pages)
+
+Hub: [cyasar.github.io/ictea2026](https://cyasar.github.io/ictea2026/) — deploys automatically on every push to `main` via GitHub Actions (`.github/workflows/pages.yml`).
 
 Regenerate the Colab notebook after editing the builder:
 
@@ -40,6 +56,8 @@ python build_colab_nb.py --verify-only   # syntax check only
 ```
 
 Edit **`notebooks/build_colab_nb.py`**, not the `.ipynb` directly, when using the builder. A `.ipynb.bak` backup is created on each rebuild.
+
+Concept glossary reference: **`q1.txt`**
 
 ---
 
@@ -54,8 +72,9 @@ Edit **`notebooks/build_colab_nb.py`**, not the `.ipynb` directly, when using th
 
 ### Pre-rehearsal checklist
 
-- [ ] Browser full-screen; second tab with Colab open
-- [ ] Internet for GitHub Pages + Colab
+- [ ] **Local:** open `index.html` or `OPEN_HUB.bat` → Web Simulation → Presentation Mode → **1 / 27**
+- [ ] **Online:** [GitHub Pages hub](https://cyasar.github.io/ictea2026/) — hard refresh **Ctrl+F5** if slide count is stale
+- [ ] Browser full-screen; second tab with Colab open (needs internet)
 - [ ] Colab: **Runtime → Run all** once (warm cache)
 - [ ] Simulation: enable **Six-pore benchmark**, optimizer **Exhaustive**, click **Run Optimization**
 
@@ -65,13 +84,13 @@ Edit **`notebooks/build_colab_nb.py`**, not the `.ipynb` directly, when using th
 
 | Mode | Where | Purpose |
 |------|-------|---------|
-| **Presentation** | Web App → *Presentation Mode* | 24-slide deck, animated visuals, speaker notes (EN / TR / RO) |
+| **Presentation** | Web App → *Presentation Mode* | **27 slides** (24 main + 3 optional concept reading), animated visuals, speaker notes (EN / TR / RO) |
 | **Simulation** | Web App → *Simulation Mode* | Adjust QUBO parameters, run optimization, live canvases |
 | **Teaching** | Google Colab notebook | Comparative charts, classical vs QUBO, 6×8 network SA |
 
 ---
 
-## Presentation Mode (24 slides)
+## Presentation Mode (27 slides)
 
 **Enter:** *Presentation Mode* on the web app · **Language:** EN / TR / RO · **Speaker notes:** **N** · **Live sim:** **S** · **Fullscreen:** **F**
 
@@ -101,8 +120,11 @@ Edit **`notebooks/build_colab_nb.py`**, not the `.ipynb` directly, when using th
 | **21** | **Interpretation** | Optimum ≠ top fᵢ alone |
 | **22** | **Discussion** | No quantum advantage claimed |
 | **23** | **Conclusion** | Feasible O₂ pathways via QUBO |
+| *24* | *Concept Reading · QUBO & binary* | *Optional appendix — math blocks, EN/TR/RO* |
+| *25* | *Concept Reading · Hamiltonian H(x)* | *Term-by-term formula explanation* |
+| *26* | *Concept Reading · Ising & solvers* | *η, P, feasibility, exhaustive vs SA* |
 
-Slides 20–23 (Key Findings → Conclusion) are placed at the **end** of the deck for the academic wrap-up.
+Slides 20–23 (Key Findings → Conclusion) are the main academic wrap-up. Slides **24–26** are **optional concept-reading** appendix for audiences who want mathematical definitions (see also `q1.txt`). The main 24-slide flow is unchanged.
 
 ### Keyboard shortcuts
 
@@ -229,11 +251,14 @@ For large networks (e.g. C=6, P=8), use **Simulated annealing**; exhaustive sear
 ```
 ictea2026/
 ├── index.html              # Multilingual link hub (EN / TR / RO)
+├── OPEN_HUB.bat            # Windows: open hub from disk
 ├── README.md
+├── q1.txt                  # Concept glossary (slides 24–26)
 ├── build_colab_nb.py       # Wrapper → notebooks/build_colab_nb.py
+├── .github/workflows/pages.yml   # GitHub Pages auto-deploy
 ├── config/
-│   ├── links.js            # Web + Colab URLs
-│   ├── i18n-presentation.js   # 24 slides × EN/TR/RO + speaker notes
+│   ├── links.js            # Colab URL; webApp = frontend/index.html (relative)
+│   ├── i18n-presentation.js   # 27 slides × EN/TR/RO + speaker notes
 │   ├── i18n-hub.js
 │   └── authors.js
 ├── frontend/
@@ -245,7 +270,7 @@ ictea2026/
 │       ├── visualization.js
 │       ├── presentation.js
 │       └── pres-visuals.js
-├── js/hub-i18n.js
+├── js/hub-i18n.js          # Hub i18n + file:// local detection
 ├── backend/                # Optional Flask API
 │   ├── app.py
 │   ├── qubo_model.py
@@ -273,10 +298,12 @@ Default API: `http://localhost:5000` — set `config/links.js` → `apiBase` if 
 ## GitHub Pages
 
 1. Push to `main` on [cyasar/ictea2026](https://github.com/cyasar/ictea2026).
-2. **Settings → Pages → Source:** branch `main`, folder `/ (root)`.
+2. **Settings → Pages → Source:** **GitHub Actions** (workflow: `Deploy GitHub Pages`).
 3. Hub: `https://cyasar.github.io/ictea2026/`
 
-Share URLs are configured in **`config/links.js`**.
+After each push, wait ~1–2 minutes, then **Ctrl+F5** if the browser shows an old slide count.
+
+Share URLs: **`config/links.js`** — `webApp` is relative (`frontend/index.html`) so the same repo works locally (`file://`), on localhost, and on GitHub Pages.
 
 ---
 
@@ -290,6 +317,8 @@ Share URLs are configured in **`config/links.js`**.
 | Edit slide visuals | `frontend/js/pres-visuals.js` |
 | Rebuild notebook | `python build_colab_nb.py` |
 | Verify notebook cells | `python build_colab_nb.py --verify-only` |
+| Edit concept-reading slides | `config/i18n-presentation.js` slides 24–26; reference `q1.txt` |
+| Open hub locally (Windows) | Double-click `OPEN_HUB.bat` |
 
 ---
 
