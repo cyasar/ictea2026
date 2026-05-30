@@ -6,7 +6,8 @@
 window.DEMO_LINKS = {
   // Web simulation (Presentation + Simulation modes)
   // Example: "https://YOUR_USERNAME.github.io/ictea2026-qubo/frontend/index.html"
-  webApp: "https://cyasar.github.io/ictea2026/frontend/index.html",
+  // Relative path works for file://, localhost, and GitHub Pages hub
+  webApp: "frontend/index.html",
 
   // Teaching Mode — Google Colab notebook
   // Drive: https://drive.google.com/file/d/1kOonF5KpEVLWtqBB4UpNNOgkHrYvKo5b/view?usp=sharing

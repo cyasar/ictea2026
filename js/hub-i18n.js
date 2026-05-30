@@ -50,7 +50,15 @@
 
   function setupLinks() {
     const cfg = window.DEMO_LINKS || {};
-    const webUrl = cfg.webApp || "frontend/index.html";
+    const localWeb = "frontend/index.html";
+    const isLocal =
+      window.location.protocol === "file:" ||
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1";
+    let webUrl = cfg.webApp || localWeb;
+    if (isLocal || !webUrl.startsWith("http")) {
+      webUrl = localWeb;
+    }
     colabUrlResolved = cfg.colabTeaching && cfg.colabTeaching !== "YOUR_COLAB_NOTEBOOK_URL"
       ? cfg.colabTeaching
       : "";
@@ -58,10 +66,13 @@
     const webLink = document.getElementById("web-link");
     const webDisplay = document.getElementById("web-url-display");
     webLink.href = webUrl;
-    webDisplay.textContent = webUrl.startsWith("http")
-      ? webUrl
-      : new URL(webUrl, window.location.href).href;
+    webDisplay.textContent = new URL(webUrl, window.location.href).href;
     webDisplay.dataset.resolved = "1";
+
+    const localBanner = document.getElementById("hub-local-banner");
+    if (localBanner) {
+      localBanner.hidden = window.location.protocol !== "file:";
+    }
 
     const colabLink = document.getElementById("colab-link");
     if (colabUrlResolved) {
