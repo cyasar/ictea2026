@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Optimization of Oxygen Flow in Nanoporous Networks — QUBO Simulation</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">ICTEA 2026 · Interactive Demo</p>
+      <h1 class="paper-title">Optimization of Oxygen Flow in Nanoporous Networks Using a Quantum Ising Machine: A QUBO-Based Approach for Sustainable Water De-Eutrophication</h1>
+      <p class="authors-line">Prof. Dr. Eden Mamut · Dr. Cumali Yaşar (Yazılım Geliştirme)</p>
+    </div>
+    <div class="header-actions">
+      <button type="button" class="btn" id="btn-presentation">Presentation Mode</button>
+      <button type="button" class="btn active" id="btn-simulation">Simulation Mode</button>
+      <a class="btn btn-colab" id="btn-teaching" href="#" target="_blank" rel="noopener">Teaching Mode (Colab)</a>
+      <button type="button" class="btn" id="btn-reset">Reset</button>
+      <button type="button" class="btn" id="btn-export">Export Results</button>
+      <a class="btn" href="../index.html">Demo Links</a>
+    </div>
+  </header>
+
+  <div class="teaching-banner" id="teaching-banner">
+    <strong>Teaching Mode</strong> runs in Google Colab (QUBO formulas, Ising mapping, step-by-step).
+    <a id="teaching-link-inline" href="#" target="_blank" rel="noopener">Open Colab notebook →</a>
+  </div>
+
+  <main class="layout" id="simulation-layout">
+    <aside class="panel controls-panel">
+      <h2>Parameters</h2>
+      <div class="control-group">
+        <label for="channels">Channel count (C)</label>
+        <input type="number" id="channels" min="1" max="12" value="6">
+      </div>
+      <div class="control-group">
+        <label for="pores">Pores per channel (P)</label>
+        <input type="number" id="pores" min="1" max="16" value="8">
+      </div>
+      <div class="control-group">
+        <label for="pmax">Pressure limit P<sub>max</sub></label>
+        <input type="number" id="pmax" step="0.01" value="0.80">
+      </div>
+      <div class="control-group">
+        <label for="k-active">Max active pores K</label>
+        <input type="number" id="k-active" min="1" value="3">
+      </div>
+      <div class="control-group">
+        <label for="lambda-p">Pressure penalty λ<sub>p</sub></label>
+        <input type="number" id="lambda-p" step="0.5" value="50">
+      </div>
+      <div class="control-group">
+        <label for="lambda-k">Active pore penalty λ<sub>k</sub></label>
+        <input type="number" id="lambda-k" step="0.5" value="50">
+      </div>
+      <div class="control-group">
+        <label for="lambda-c">Continuity penalty λ<sub>c</sub></label>
+        <input type="number" id="lambda-c" step="0.5" value="5">
+      </div>
+      <div class="control-group">
+        <label for="method">Optimization method</label>
+        <select id="method">
+          <option value="exhaustive">Exhaustive search</option>
+          <option value="simulated_annealing" selected>Simulated annealing</option>
+          <option value="ising_mean_field">Ising mean field</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label><input type="checkbox" id="use-benchmark"> Six-pore benchmark</label>
+      </div>
+      <div class="control-group">
+        <label for="seed">Random seed</label>
+        <input type="number" id="seed" value="42">
+      </div>
+      <button type="button" class="btn btn-primary" id="btn-run" style="width:100%">Run Optimization</button>
+    </aside>
+
+    <section class="center-stack">
+      <div class="panel panel-main-viz">
+        <h2>Main Physical Simulation</h2>
+        <div class="viz-box viz-main"><canvas id="main-canvas"></canvas></div>
+      </div>
+      <div class="panel-row">
+        <div class="panel panel-half">
+          <div class="viz-box viz-aux"><canvas id="section-canvas"></canvas></div>
+        </div>
+        <div class="panel panel-half">
+          <div class="viz-box viz-aux"><canvas id="topview-canvas"></canvas></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="viz-box viz-qubo"><canvas id="qubo-canvas"></canvas></div>
+      </div>
+      <div class="panel panel-energy">
+        <div class="viz-box viz-energy"><canvas id="energy-canvas"></canvas></div>
+      </div>
+    </section>
+
+    <aside class="panel results-panel">
+      <h2>Results</h2>
+      <div class="metric-grid">
+        <div class="metric"><div class="label">H(x)</div><div class="value" id="res-h">—</div></div>
+        <div class="metric"><div class="label">Total efficiency</div><div class="value" id="res-eff">—</div></div>
+        <div class="metric"><div class="label">Total pressure</div><div class="value" id="res-pres">—</div></div>
+        <div class="metric"><div class="label">Active pores</div><div class="value" id="res-active">—</div></div>
+        <div class="metric" id="feasible-metric"><div class="label">Feasible</div><div class="value" id="res-feasible">—</div></div>
+        <div class="metric"><div class="label">Search space 2ⁿ</div><div class="value" id="res-space">—</div></div>
+        <div class="metric"><div class="label">Runtime (ms)</div><div class="value" id="res-runtime">—</div></div>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="status-bar" id="status-bar">
+    Ready — Prof. Dr. Eden Mamut · Dr. Cumali Yaşar (Yazılım Geliştirme)
+  </footer>
+
+  <div class="presentation-overlay" id="presentation">
+    <div class="pres-toolbar">
+      <button type="button" class="pres-sim-btn" id="pres-sim-btn">Live Simulation</button>
+      <span class="pres-toolbar-sep"></span>
+      <span class="pres-lang-label">Language</span>
+      <button type="button" class="pres-lang-btn active" data-lang="en" aria-pressed="true">English</button>
+      <button type="button" class="pres-lang-btn" data-lang="tr" aria-pressed="false">Türkçe</button>
+      <button type="button" class="pres-lang-btn" data-lang="ro" aria-pressed="false">Română</button>
+      <button type="button" class="pres-notes-btn" id="pres-notes-btn">Speaker Notes</button>
+      <button type="button" class="pres-close" id="pres-close">Exit</button>
+    </div>
+    <p class="pres-authors">Prof. Dr. Eden Mamut · Dr. Cumali Yaşar (Software Development)</p>
+
+    <div class="pres-main-area">
+      <div class="pres-slides-wrap">
+        <div id="pres-slides-container"></div>
+        <div class="pres-thumb-strip" id="pres-thumb-strip"></div>
+      </div>
+      <aside class="pres-sim-panel" id="pres-sim-panel">
+        <div class="pres-sim-header">
+          <span class="pres-sim-title">Live Simulation</span>
+          <button type="button" class="pres-run-btn" id="pres-run-btn">Run Optimization</button>
+        </div>
+        <div class="pres-sim-canvas-wrap">
+          <canvas id="pres-live-main"></canvas>
+        </div>
+        <div class="pres-sim-canvas-wrap pres-sim-qubo-wrap">
+          <canvas id="pres-live-qubo"></canvas>
+        </div>
+        <div class="pres-sim-metrics" id="pres-sim-metrics"></div>
+        <p class="pres-sim-hint">Shortcut: <kbd>S</kbd> toggle · <kbd>N</kbd> notes · arrows navigate</p>
+      </aside>
+    </div>
+
+    <aside class="pres-notes-panel" id="pres-notes-panel" aria-hidden="true">
+      <div class="pres-notes-chrome">
+        <div class="pres-notes-header">
+          <span id="pres-notes-title">Presenter View</span>
+          <span id="pres-notes-slide-label">Slide 1 / 24</span>
+        </div>
+        <p class="pres-notes-lang-hint" id="pres-notes-lang-hint"></p>
+        <div class="pres-notes-body" id="pres-notes-body"></div>
+      </div>
+    </aside>
+    <div class="pres-progress" aria-hidden="true"><div class="pres-progress-bar" id="pres-progress-bar"></div></div>
+    <nav class="pres-nav">
+      <button type="button" id="pres-prev">← Previous</button>
+      <span class="pres-counter" id="pres-counter">1 / 24</span>
+      <button type="button" id="pres-next">Next →</button>
+    </nav>
+  </div>
+
+  <script src="../config/i18n-presentation.js"></script>
+  <script src="../config/authors.js"></script>
+  <script src="../config/links.js"></script>
+  <script src="js/simulation.js"></script>
+  <script src="js/visualization.js"></script>
+  <script src="js/pres-visuals.js"></script>
+  <script src="js/presentation.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
